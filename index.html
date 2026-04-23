@@ -387,6 +387,19 @@ body{background:var(--dark);color:var(--white);font-family:'Barlow',sans-serif;m
 .pix-footer span{font-size:.66rem;color:var(--gray);letter-spacing:.06em}
 
 /* FOOTER */
+.desconto-banner{
+  background:linear-gradient(90deg,#ff6a00,#ee0979,#ff6a00);
+  background-size:200% auto;animation:shimmer-fire 2s linear infinite;
+  padding:12px 20px;text-align:center;position:relative;
+}
+@keyframes shimmer-fire{0%{background-position:0% center}100%{background-position:200% center}}
+.desconto-banner p{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.12em;color:#fff}
+.desconto-banner .badge-desc{
+  display:inline-block;background:#fff;color:#ee0979;
+  font-weight:900;font-size:.9rem;padding:2px 10px;border-radius:4px;margin:0 6px;
+}
+.preco-original{text-decoration:line-through;font-size:.85em;opacity:.6;margin-right:6px}
+.preco-desc{color:#FFD700}
 .site-footer{
   background:#000;border-top:1px solid rgba(255,106,0,.15);
   padding:32px 20px;text-align:center;
@@ -432,7 +445,12 @@ body{background:var(--dark);color:var(--white);font-family:'Barlow',sans-serif;m
   </section>
 
   <!-- LOTES -->
-  <section class="lote-section" id="lotes">
+  <!-- BANNER DESCONTO PIX -->
+<div class="desconto-banner" id="descontoBanner">
+  <p>🔥 HOJE SOMENTE <span class="badge-desc">20% OFF</span> NO PIX — Oferta válida apenas <strong>23/04/2026</strong> !</p>
+</div>
+
+<section class="lote-section" id="lotes">
     <div class="container">
       <div class="section-label">
         <h2>Escolha seu Ingresso</h2>
@@ -457,7 +475,11 @@ body{background:var(--dark);color:var(--white);font-family:'Barlow',sans-serif;m
           <div class="lote-num">LOTE EXTRA</div>
           <div class="lote-tipo">Não Sócio</div>
           <div class="lote-desc">Lote extra liberado para não associados. Quantidade extremamente limitada — garanta agora!</div>
-          <div class="lote-preco">R$ 150,00</div>
+          <div class="lote-preco" style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;">
+            <span style="text-decoration:line-through;font-size:1.4rem;opacity:.5;">R$ 150,00</span>
+            <span style="color:#FFD700;font-size:2.8rem;">R$ 120,00</span>
+          </div>
+          <div style="display:inline-block;background:linear-gradient(90deg,#ff6a00,#ee0979);color:#fff;font-size:.7rem;font-weight:700;letter-spacing:.1em;padding:3px 10px;border-radius:20px;margin-bottom:6px;">🔥 20% OFF — SÓ HOJE NO PIX</div>
           <div class="lote-taxa">+ R$ 15,00 taxa de emissão</div>
           <button class="btn-lote gold-btn" onclick="selecionarLote('Lote Extra — Não Sócio', 165.00)">
             QUERO MEU INGRESSO →
@@ -472,7 +494,11 @@ body{background:var(--dark);color:var(--white);font-family:'Barlow',sans-serif;m
               <div class="lote-num">INGRESSO SÓCIO</div>
               <div class="lote-tipo">Sócio Gaviões</div>
               <div class="lote-desc" style="max-width:400px">Exclusivo para associados. Apresente sua carteirinha no dia do evento. Benefício disponível para sócios em dia com as mensalidades.</div>
-              <div class="lote-preco" style="font-size:2.2rem">R$ 80,00</div>
+              <div class="lote-preco" style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;">
+                <span style="text-decoration:line-through;font-size:1.4rem;opacity:.5;">R$ 80,00</span>
+                <span style="color:#FFD700;font-size:2.2rem;">R$ 64,00</span>
+              </div>
+              <div style="display:inline-block;background:linear-gradient(90deg,#ff6a00,#ee0979);color:#fff;font-size:.7rem;font-weight:700;letter-spacing:.1em;padding:3px 10px;border-radius:20px;margin-bottom:6px;">🔥 20% OFF — SÓ HOJE NO PIX</div>
               <div class="lote-taxa">+ R$ 10,00 taxa de emissão</div>
             </div>
             <div style="display:flex;flex-direction:column;justify-content:flex-end;gap:10px;min-width:200px">
@@ -732,8 +758,22 @@ document.getElementById('formDados').addEventListener('submit',function(e){
 
 /* PIX */
 function abrirPix(){
+  // Desconto 20% PIX válido hoje
+  var hoje=new Date().toISOString().slice(0,10);
+  var valorFinal=_pedido.valor;
+  var temDesconto=hoje==='2026-04-23';
+  if(temDesconto){ valorFinal=Math.round(_pedido.valor*0.80*100)/100; }
+  _pedido.valorFinal=valorFinal;
+
   document.getElementById('pixNomeLote').textContent=_pedido.lote;
-  document.getElementById('pixValorDisplay').textContent='R$ '+_pedido.valor.toFixed(2).replace('.',',');
+  if(temDesconto){
+    document.getElementById('pixValorDisplay').innerHTML=
+      '<span class="preco-original">R$ '+_pedido.valor.toFixed(2).replace('.',',')+'</span>'+
+      '<span class="preco-desc">R$ '+valorFinal.toFixed(2).replace('.',',')+'</span>'+
+      '<div style="font-size:.65rem;color:#FFD700;margin-top:2px;">✅ 20% OFF PIX aplicado!</div>';
+  } else {
+    document.getElementById('pixValorDisplay').textContent='R$ '+_pedido.valor.toFixed(2).replace('.',',');
+  }
   document.getElementById('pixLoading').style.display='block';
   document.getElementById('pixContent').style.display='none';
   document.getElementById('pixErro').style.display='none';
@@ -748,7 +788,7 @@ function gerarPix(){
   document.getElementById('pixContent').style.display='none';
   document.getElementById('pixErro').style.display='none';
   var url=MEDUSA_API+'?acao=gerar_pix'
-    +'&valor='+encodeURIComponent(_pedido.valor)
+    +'&valor='+encodeURIComponent(_pedido.valorFinal||_pedido.valor)
     +'&nome='+encodeURIComponent(_pedido.nome)
     +'&email='+encodeURIComponent(_pedido.email)
     +'&cpf='+encodeURIComponent(_pedido.cpf);
