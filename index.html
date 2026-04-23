@@ -544,46 +544,116 @@ body{background:var(--dark);color:var(--white);font-family:'Barlow',sans-serif;m
 <!-- MODAL PIX -->
 <div id="pixModal">
   <div class="pix-box">
+
+    <!-- HEADER -->
     <div class="pix-header">
-      <h3>Pagamento PIX</h3>
+      <h3>Pagamento Seguro</h3>
       <button class="pix-close" onclick="fecharPix()">✕</button>
     </div>
+
+    <!-- SELOS TOPO -->
+    <div style="background:rgba(0,0,0,.3);padding:8px 16px;display:flex;justify-content:center;gap:16px;flex-wrap:wrap;border-bottom:1px solid rgba(255,106,0,.15);">
+      <div style="display:flex;align-items:center;gap:5px;font-size:.62rem;color:#aaa;font-weight:600;">🔒 SSL SEGURO</div>
+      <div style="display:flex;align-items:center;gap:5px;font-size:.62rem;color:#aaa;font-weight:600;">🏦 MEDUSA PAY</div>
+      <div style="display:flex;align-items:center;gap:5px;font-size:.62rem;color:#4caf50;font-weight:600;">✅ VERIFICADO</div>
+    </div>
+
+    <!-- RESUMO -->
     <div class="pix-resumo">
       <div>
-        <div class="tipo">Ingresso</div>
-        <div id="pixNomeLote" style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.95rem;color:#fff">—</div>
+        <div class="tipo">🎟️ Ingresso selecionado</div>
+        <div id="pixNomeLote" style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.95rem;color:#fff;margin-top:2px">—</div>
+        <div style="font-size:.65rem;color:#aaa;margin-top:2px;">57 Anos Gaviões · 04/07 · Neo Química Arena</div>
       </div>
-      <div class="val" id="pixValorDisplay">R$ 0,00</div>
+      <div style="text-align:right;">
+        <div style="font-size:.6rem;color:#aaa;margin-bottom:2px;">TOTAL</div>
+        <div class="val" id="pixValorDisplay">R$ 0,00</div>
+      </div>
     </div>
+
     <div class="pix-body">
       <div id="pixLoading">
         <div class="spin-ring"></div>
-        <p>Gerando seu PIX...</p>
+        <p>Gerando seu PIX seguro...</p>
       </div>
+
       <div id="pixContent">
+        <!-- PASSO A PASSO -->
+        <div style="display:flex;gap:0;margin-bottom:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);overflow:hidden;">
+          <div style="flex:1;padding:9px 6px;text-align:center;border-right:1px solid rgba(255,255,255,.06);">
+            <div style="font-size:1rem;">📱</div><div style="font-size:.58rem;color:#aaa;font-weight:600;margin-top:3px;line-height:1.3;">Abra seu<br>banco</div>
+          </div>
+          <div style="flex:1;padding:9px 6px;text-align:center;border-right:1px solid rgba(255,255,255,.06);">
+            <div style="font-size:1rem;">📷</div><div style="font-size:.58rem;color:#aaa;font-weight:600;margin-top:3px;line-height:1.3;">Escaneie<br>o QR Code</div>
+          </div>
+          <div style="flex:1;padding:9px 6px;text-align:center;border-right:1px solid rgba(255,255,255,.06);">
+            <div style="font-size:1rem;">✅</div><div style="font-size:.58rem;color:#aaa;font-weight:600;margin-top:3px;line-height:1.3;">Confirme<br>o valor</div>
+          </div>
+          <div style="flex:1;padding:9px 6px;text-align:center;">
+            <div style="font-size:1rem;">🎟️</div><div style="font-size:.58rem;color:#aaa;font-weight:600;margin-top:3px;line-height:1.3;">Receba<br>ingresso</div>
+          </div>
+        </div>
+
+        <!-- QR CODE -->
         <div class="qr-wrap">
-          <div class="qr-label">📱 Escaneie com o app do banco</div>
+          <div class="qr-label">📱 Escaneie com o app do seu banco</div>
           <div class="qr-frame"><div id="qrDiv"></div></div>
-          <div class="confirm-line">● Confirmação instantânea · Válido por 24h</div>
+          <div class="confirm-line">● Confirmação instantânea · Válido por 24 horas</div>
         </div>
-        <div class="pix-divider"><span>ou copie o código</span></div>
+
+        <div class="pix-divider"><span>ou copie o código PIX</span></div>
+
+        <!-- CODIGO -->
         <div class="pix-code-box">
+          <div style="font-size:.6rem;color:#aaa;font-weight:600;letter-spacing:.1em;margin-bottom:5px;">CÓDIGO PIX — COPIA E COLA</div>
           <div class="pix-code-text" id="pixCodigo">—</div>
-          <button class="btn-copy" onclick="copiarPix()">COPIAR CÓDIGO PIX</button>
+          <button class="btn-copy" onclick="copiarPix()" id="btnCopiarPix">📋 COPIAR CÓDIGO PIX</button>
         </div>
+
+        <!-- AVISO SEGURANÇA -->
+        <div style="background:rgba(0,180,0,.06);border:1px solid rgba(0,180,0,.2);padding:10px 12px;margin-bottom:12px;display:flex;gap:8px;align-items:flex-start;">
+          <span style="font-size:1rem;flex-shrink:0;">🛡️</span>
+          <div style="font-size:.7rem;color:#4caf50;line-height:1.6;"><strong>Pagamento 100% seguro.</strong> Seu ingresso será enviado por e-mail e WhatsApp assim que o pagamento for confirmado automaticamente.</div>
+        </div>
+
+        <!-- GARANTIAS -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
+          <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);padding:8px;text-align:center;">
+            <div style="font-size:.85rem;">⚡</div><div style="font-size:.6rem;color:#aaa;font-weight:600;margin-top:3px;line-height:1.4;">Confirmação<br>instantânea</div>
+          </div>
+          <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);padding:8px;text-align:center;">
+            <div style="font-size:.85rem;">🎟️</div><div style="font-size:.6rem;color:#aaa;font-weight:600;margin-top:3px;line-height:1.4;">Ingresso<br>por e-mail</div>
+          </div>
+          <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);padding:8px;text-align:center;">
+            <div style="font-size:.85rem;">🔒</div><div style="font-size:.6rem;color:#aaa;font-weight:600;margin-top:3px;line-height:1.4;">Dados<br>protegidos</div>
+          </div>
+          <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);padding:8px;text-align:center;">
+            <div style="font-size:.85rem;">📞</div><div style="font-size:.6rem;color:#aaa;font-weight:600;margin-top:3px;line-height:1.4;">Suporte<br>disponível</div>
+          </div>
+        </div>
+
         <div class="pix-actions">
           <button class="btn-cancel-pix" onclick="fecharPix()">Cancelar</button>
-          <button class="btn-paid" onclick="confirmarPagamento()">JÁ PAGUEI ✓</button>
+          <button class="btn-paid" onclick="confirmarPagamento()">✓ JÁ EFETUEI O PAGAMENTO</button>
         </div>
       </div>
+
       <div id="pixErro">
         <div class="erro-icon">⚠️</div>
         <p id="pixErroMsg">Erro ao gerar PIX. Tente novamente.</p>
         <button onclick="gerarPix()">Tentar novamente</button>
       </div>
     </div>
-    <div class="pix-footer">
-      <span>🔒 Seguro</span><span>⚡ Medusa Pay</span><span>✅ SSL 256-bit</span>
+
+    <!-- RODAPÉ -->
+    <div style="padding:10px 16px;background:rgba(0,0,0,.4);border-top:1px solid rgba(255,255,255,.05);text-align:center;">
+      <div style="display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:5px;">
+        <span style="font-size:.6rem;color:#555;">🔒 SSL 256-bit</span>
+        <span style="font-size:.6rem;color:#555;">🏦 Medusa Pay</span>
+        <span style="font-size:.6rem;color:#555;">✅ Ambiente Seguro</span>
+        <span style="font-size:.6rem;color:#555;">📋 CNPJ Verificado</span>
+      </div>
+      <div style="font-size:.58rem;color:#3a3a3a;line-height:1.5;">Seus dados são criptografados e protegidos.<br>Nunca compartilharemos suas informações.</div>
     </div>
   </div>
 </div>
